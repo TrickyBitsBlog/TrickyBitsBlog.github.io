@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://trickybitsblog.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://trickybitsblog.github.io/" rel="alternate" type="text/html" /><updated>2023-05-18T15:40:04-06:00</updated><id>https://trickybitsblog.github.io/feed.xml</id><title type="html">Tricky Bits</title><subtitle>Hello, this is an demo of the jekyll theme simplex. Here you can check out all the features of the theme. To try this theme, have a look at the Github.</subtitle><entry><title type="html">ObjC Branch Prediction</title><link href="https://trickybitsblog.github.io/programming/apple/2023/05/17/objc-bp.html" rel="alternate" type="text/html" title="ObjC Branch Prediction" /><published>2023-05-17T00:00:00-06:00</published><updated>2023-05-17T00:00:00-06:00</updated><id>https://trickybitsblog.github.io/programming/apple/2023/05/17/objc-bp</id><content type="html" xml:base="https://trickybitsblog.github.io/programming/apple/2023/05/17/objc-bp.html">&lt;p&gt;This post was never planned. While using instruments to debug an unrelated app, I saw a syscall that I had never noticed before, called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;objc_bp_assist_cfg&lt;/code&gt;. At first I thought why is there an Objective C syscall in my C code?&lt;/p&gt;
+
+&lt;p&gt;Why is it there and what does it do? There is nothing documented anywhere on the web, there is no mention in any of the Apple Open Source, so I went off to investigate. It didn’t take long to realize that this is called from the start up because even a pure C with an empty main function makes the syscall.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/posts/sept-2022/instruments.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;At first, I thought &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bp&lt;/code&gt; in the name meant breakpoint but it quickly became obvious that it really means &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;branch predictor&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is as far as I got. I cannot find a machine on which the syscall doesn’t return error 5. I have tried OSX with M1, M1 Max and M2. I also tried on iPhone14 Pro with A15 processor. At this point I cannot tell if this is a planned future feature and they are trying to get application support early. I have not yet had time to tear apart the kernel cache for any of these platforms to see what the syscall actually does on current hardware.&lt;/p&gt;</content><author><name>rob</name></author><category term="[&quot;programming&quot;, &quot;apple&quot;]" /><summary type="html">This post was never planned. While using instruments to debug an unrelated app, I saw a syscall that I had never noticed before, called objc_bp_assist_cfg. At first I thought why is there an Objective C syscall in my C code?</summary></entry><entry><title type="html">Pointer Authentication</title><link href="https://trickybitsblog.github.io/programming/apple/2023/05/16/pointer-auth.html" rel="alternate" type="text/html" title="Pointer Authentication" /><published>2023-05-16T00:00:00-06:00</published><updated>2023-05-16T00:00:00-06:00</updated><id>https://trickybitsblog.github.io/programming/apple/2023/05/16/pointer-auth</id><content type="html" xml:base="https://trickybitsblog.github.io/programming/apple/2023/05/16/pointer-auth.html">&lt;p&gt;This is a post about pointer authenication below is an embedded custom java script canvas&lt;/p&gt;
+
+&lt;div&gt;
+  &lt;script type=&quot;text/javascript&quot; src=&quot;/assets/js/posts/drag.js&quot;&gt;&lt;/script&gt;
+    &lt;canvas id=&quot;canvasSignature&quot; width=&quot;800px&quot; height=&quot;500px&quot; style=&quot;border:2px solid #000; background: #FFF;&quot;&gt;&lt;/canvas&gt;
+&lt;/div&gt;</content><author><name>rob</name></author><category term="[&quot;programming&quot;, &quot;apple&quot;]" /><summary type="html">This is a post about pointer authenication below is an embedded custom java script canvas</summary></entry><entry><title type="html">Photos and pictures</title><link href="https://trickybitsblog.github.io/hardware/retro/2021/06/16/pictures-example.html" rel="alternate" type="text/html" title="Photos and pictures" /><published>2021-06-16T04:05:42-06:00</published><updated>2021-06-16T04:05:42-06:00</updated><id>https://trickybitsblog.github.io/hardware/retro/2021/06/16/pictures-example</id><content type="html" xml:base="https://trickybitsblog.github.io/hardware/retro/2021/06/16/pictures-example.html">&lt;p&gt;The simplex supports not only embedding pictures but also includes a lightbox plugin. Read the post and check out various examples.&lt;/p&gt;
+
+&lt;h2 id=&quot;dogs&quot;&gt;Dogs&lt;/h2&gt;
+
+&lt;p&gt;Try to click on the following picture:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/assets/img/posts/doggo1.jpg&quot; data-lity=&quot;&quot;&gt;
+  &lt;img src=&quot;/assets/img/posts/doggo1_thumb.jpg&quot; /&gt;
+&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;You see? A big doggo appeared.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Images can be centercd ..ed:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/assets/img/posts/doggo2.jpg&quot; data-lity=&quot;&quot; class=&quot;sx-center&quot;&gt;
+  &lt;img src=&quot;/assets/img/posts/doggo2_thumb.jpg&quot; /&gt;
+&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;You don’t have to use the lightbox feature. In that case, simply use markdown image tag:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/posts/doggo1_thumb.jpg&quot; alt=&quot;A picure without lightbox&quot; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;There also can be a simple description under the picture:&lt;/p&gt;
+
+&lt;div class=&quot;sx-center&quot;&gt;
+    &lt;div class=&quot;sx-picture&quot;&gt;
+    &lt;a href=&quot;/assets/img/posts/doggo2.jpg&quot; data-lity=&quot;&quot;&gt;
+        &lt;img src=&quot;/assets/img/posts/doggo2_thumb.jpg&quot; /&gt;
+    &lt;/a&gt;
+    &lt;span class=&quot;sx-subtitle&quot;&gt;My picture description.&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;attributions&quot;&gt;Attributions&lt;/h2&gt;
+&lt;p&gt;The first dog picture by &lt;a href=&quot;https://unsplash.com/photos/U3aF7hgUSrk&quot;&gt;Pauline Loroy&lt;/a&gt;.
+The second dog picture by: &lt;a href=&quot;https://unsplash.com/photos/2l0CWTpcChI&quot;&gt;Marliese Streefland&lt;/a&gt;.&lt;/p&gt;</content><author><name>rob</name></author><category term="[&quot;hardware&quot;, &quot;retro&quot;]" /><summary type="html">The simplex supports not only embedding pictures but also includes a lightbox plugin. Read the post and check out various examples.</summary></entry><entry><title type="html">Syntax highlighting example</title><link href="https://trickybitsblog.github.io/programming/graphics/apple/2021/06/16/syntax-example.html" rel="alternate" type="text/html" title="Syntax highlighting example" /><published>2021-06-16T02:05:42-06:00</published><updated>2021-06-16T02:05:42-06:00</updated><id>https://trickybitsblog.github.io/programming/graphics/apple/2021/06/16/syntax-example</id><content type="html" xml:base="https://trickybitsblog.github.io/programming/graphics/apple/2021/06/16/syntax-example.html">&lt;p&gt;In this post we will have a look at some syntax highlighting abilities.&lt;/p&gt;
+
+&lt;p&gt;Here you can see a very simple C++ code snippet:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;k&quot;&gt;template&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Vector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;nl&quot;&gt;private:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;size_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;used&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;size_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;capacity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;nl&quot;&gt;public:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Vector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;size_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;elemCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+
+            &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;elemCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;capacity&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;elemCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;used&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Vector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The simplex support all the languages supported by Jekyll. For example, bash commands can be highlighted as well:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;bundle &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;jekyll serve &lt;span class=&quot;nt&quot;&gt;--force-polling&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;You can also create your own highlighting palletes! See &lt;a href=&quot;https://github.com/andreondra/jekyll-theme-simplex&quot;&gt;simplex readme&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The simplex also includes some simple buttons, which can be used for example at the end of the tutorial:&lt;/p&gt;
+&lt;div class=&quot;sx-button&quot;&gt;
+  &lt;a href=&quot;https://www.example.com/&quot; class=&quot;sx-button__content red&quot;&gt;
+    &lt;img src=&quot;/assets/img/icons/down_arrow.svg&quot; /&gt;Download the source
+  &lt;/a&gt;
+&lt;/div&gt;</content><author><name>rob</name></author><category term="[&quot;programming&quot;, &quot;graphics&quot;, &quot;apple&quot;]" /><summary type="html">In this post we will have a look at some syntax highlighting abilities.</summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="https://trickybitsblog.github.io/random/2021/06/16/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2021-06-16T02:05:42-06:00</published><updated>2021-06-16T02:05:42-06:00</updated><id>https://trickybitsblog.github.io/random/2021/06/16/welcome-to-jekyll</id><content type="html" xml:base="https://trickybitsblog.github.io/random/2021/06/16/welcome-to-jekyll.html">&lt;p&gt;Your markdown content here.
+You’ll find this post in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+
+&lt;p&gt;Jekyll requires blog post files to be named according to the following format:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR-MONTH-DAY-title.MARKUP&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR&lt;/code&gt; is a four-digit number, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MONTH&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DAY&lt;/code&gt; are both two-digit numbers, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MARKUP&lt;/code&gt; is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;Tom&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &apos;Hi, Tom&apos; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;</content><author><name>rob</name></author><category term="[&quot;random&quot;]" /><summary type="html">Your markdown content here. You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.</summary></entry></feed>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>ObjC Branch Prediction | Tricky Bits</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="ObjC Branch Prediction" />
+<meta name="author" content="rob" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This post was never planned. While using instruments to debug an unrelated app, I saw a syscall that I had never noticed before, called objc_bp_assist_cfg. At first I thought why is there an Objective C syscall in my C code?" />
+<meta property="og:description" content="This post was never planned. While using instruments to debug an unrelated app, I saw a syscall that I had never noticed before, called objc_bp_assist_cfg. At first I thought why is there an Objective C syscall in my C code?" />
+<link rel="canonical" href="https://trickybitsblog.github.io/programming/apple/2023/05/17/objc-bp.html" />
+<meta property="og:url" content="https://trickybitsblog.github.io/programming/apple/2023/05/17/objc-bp.html" />
+<meta property="og:site_name" content="Tricky Bits" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-05-17T00:00:00-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="ObjC Branch Prediction" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"rob"},"dateModified":"2023-05-17T00:00:00-06:00","datePublished":"2023-05-17T00:00:00-06:00","description":"This post was never planned. While using instruments to debug an unrelated app, I saw a syscall that I had never noticed before, called objc_bp_assist_cfg. At first I thought why is there an Objective C syscall in my C code?","headline":"ObjC Branch Prediction","mainEntityOfPage":{"@type":"WebPage","@id":"https://trickybitsblog.github.io/programming/apple/2023/05/17/objc-bp.html"},"url":"https://trickybitsblog.github.io/programming/apple/2023/05/17/objc-bp.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+<head>
+    <link rel="stylesheet" href="https://trickybitsblog.github.io/assets/fonts/fonts.css"/>
+<link rel="stylesheet" href="https://trickybitsblog.github.io/assets/style.css"/>
+<link rel="stylesheet" href="https://trickybitsblog.github.io/assets/js/lity.min.css"/>
+
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta property="og:site_name" content="Tricky Bits" />
+<meta 
+    property="og:title"
+    content="
+        
+            ObjC Branch Prediction
+        
+    " 
+/>
+
+    <meta property="og:description" content="Objc branch prediction" />
+
+<meta property="og:url" content="https://trickybitsblog.github.io//programming/apple/2023/05/17/objc-bp.html" />
+
+    <meta property="og:type" content="article" />
+
+
+
+    <meta property="fb:app_id" content="" />
+
+
+
+<title>
+    
+        ObjC Branch Prediction
+    
+</title>
+</head>
+<body class="index">
+
+    <header class="header">
+    <section class="logo">
+        <a href="https://trickybitsblog.github.io/" class="logo__link">
+            
+                <h1 style="display: none;">Tricky Bits</h1>
+                <img class="logo__link__img" src="/assets/img/icons/tricky-bits.svg" />
+            
+        </a>
+    </section>
+    <button id="menuToggle">
+        <div></div>
+        <div></div>
+        <div></div>
+    </button>
+    <nav class="menu">
+        
+<ul class="list primary">
+
+    
+        <li class="item">
+
+            <div class="item-controls">
+                <a href="https://trickybitsblog.github.io/category/programming.html">
+                
+                    <img src="https://trickybitsblog.github.io/assets/img/icons/c.svg"/>
+                
+                
+                    <p style="color: var(--c-themeHueWhite)">Programming</p>
+                
+                </a>
+
+            
+                <a class="button-submenu" href="#"><i class="arrow"></i></a>
+            </div>
+                
+<ul class="list">
+
+    
+        <li class="item">
+
+            <div class="item-controls">
+                <a href="https://trickybitsblog.github.io/category/apple.html">
+                
+                
+                    <p style="color: var(--c-themeHueOrange)">Apple</p>
+                
+                </a>
+
+            
+            </div>
+            
+        </li>   
+    
+        <li class="item">
+
+            <div class="item-controls">
+                <a href="https://trickybitsblog.github.io/category/graphics.html">
+                
+                
+                    <p style="color: var(--c-themeHueOrange)">Graphics</p>
+                
+                </a>
+
+            
+            </div>
+            
+        </li>   
+    
+</ul>
+            
+        </li>   
+    
+        <li class="item">
+
+            <div class="item-controls">
+                <a href="https://trickybitsblog.github.io/category/hardware.html">
+                
+                    <img src="https://trickybitsblog.github.io/assets/img/icons/hardware-icon.svg"/>
+                
+                
+                    <p style="color: var(--c-themeHueWhite)">Hardware</p>
+                
+                </a>
+
+            
+            </div>
+            
+        </li>   
+    
+        <li class="item">
+
+            <div class="item-controls">
+                <a href="https://trickybitsblog.github.io/category/retro.html">
+                
+                    <img src="https://trickybitsblog.github.io/assets/img/icons/retro-icon.svg"/>
+                
+                
+                    <p style="color: var(--c-themeHueWhite)">Retro</p>
+                
+                </a>
+
+            
+            </div>
+            
+        </li>   
+    
+        <li class="item">
+
+            <div class="item-controls">
+                <a href="https://trickybitsblog.github.io/category/random.html">
+                
+                    <img src="https://trickybitsblog.github.io/assets/img/icons/infinity-icon.svg"/>
+                
+                
+                    <p style="color: var(--c-themeHueWhite)">Random</p>
+                
+                </a>
+
+            
+            </div>
+            
+        </li>   
+    
+        <li class="item">
+
+            <div class="item-controls">
+                <a href="https://trickybitsblog.github.io/pages/about.html">
+                
+                    <img src="https://trickybitsblog.github.io/assets/img/icons/info-icon.svg"/>
+                
+                
+                    <p style="color: var(--c-themeHueWhite)">About</p>
+                
+                </a>
+
+            
+            </div>
+            
+        </li>   
+    
+</ul>
+    </nav>
+</header>
+
+    <article class="post">
+
+    <div class="post__title">
+        <h1 class="post__title__text">ObjC Branch Prediction</h1>
+    </div>
+    <div class="post__meta"> 
+        <div class="post__meta__category">
+            
+                <p class="post__meta__category__title" style="background: var(--c-themeHueRed)">Programming</p>
+            
+                <p class="post__meta__category__title" style="background: var(--c-themeHueGreen)">Apple</p>
+            
+        </div>
+        <p class="post__meta__divider">·</p>
+        <div class="post__meta__date">
+            May 17, 2023
+        </div>
+        
+            
+            <p class="post__meta__divider">·</p>
+            <div class="post__meta__author">
+                <p>by </p>
+                <img class="post__meta__author__photo" src="https://trickybitsblog.github.io/assets/img/authors/jekyll.png"/>
+                <p>Rob Wyatt</p>
+            </div>
+        
+    </div>
+
+    
+        <div class="post__navigator">
+            <div
+                class="post__navigator__buttons"
+                
+                    style="justify-content: flex-end;"
+                
+            >
+                
+                
+                    <a href="/programming/apple/2023/05/16/pointer-auth.html">
+                        Next
+                        <img class="arrow-right" src="https://trickybitsblog.github.io/assets/img/icons/arrow_right.svg"/>
+                    </a>
+                
+            </div>
+        </div>
+    
+
+    <div class="post__content">
+        <p>This post was never planned. While using instruments to debug an unrelated app, I saw a syscall that I had never noticed before, called <code class="language-plaintext highlighter-rouge">objc_bp_assist_cfg</code>. At first I thought why is there an Objective C syscall in my C code?</p>
+
+<p>Why is it there and what does it do? There is nothing documented anywhere on the web, there is no mention in any of the Apple Open Source, so I went off to investigate. It didn’t take long to realize that this is called from the start up because even a pure C with an empty main function makes the syscall.</p>
+
+<p><img src="/assets/img/posts/sept-2022/instruments.png" alt="" /></p>
+
+<p>At first, I thought <code class="language-plaintext highlighter-rouge">bp</code> in the name meant breakpoint but it quickly became obvious that it really means <code class="language-plaintext highlighter-rouge">branch predictor</code>.</p>
+
+<p>This is as far as I got. I cannot find a machine on which the syscall doesn’t return error 5. I have tried OSX with M1, M1 Max and M2. I also tried on iPhone14 Pro with A15 processor. At this point I cannot tell if this is a planned future feature and they are trying to get application support early. I have not yet had time to tear apart the kernel cache for any of these platforms to see what the syscall actually does on current hardware.</p>
+
+    </div>
+
+    <div class="post__navigator">
+      <div id="hyvor-talk-view"></div>
+      <script type="text/javascript">
+          var HYVOR_TALK_WEBSITE = 7818;
+          var HYVOR_TALK_CONFIG = {
+              url: false,
+              id:  '/programming/apple/2023/05/17/objc-bp'
+          };
+      </script>    
+      <script async type="text/javascript" src="//talk.hyvor.com/web-api/embed.js"></script>        
+    </div>
+
+</article>
+
+
+    <footer class="footer">
+        <section class="footer__about">
+                <p class="footer__about__copyright">© Tricky Bits 2023</p>
+        </section>            
+</footer>
+
+<ul class="social-media-list"><a href="https://github.com/trickybitsblog"><svg class="svg-icon"><use xlink:href="/assets/img/social-icons.svg#github"></use></svg></a><a href="https://www.twitter.com/trickybits"><svg class="svg-icon"><use xlink:href="/assets/img/social-icons.svg#twitter"></use></svg></a><a href="https://youtube.com/trickybits"><svg class="svg-icon"><use xlink:href="/assets/img/social-icons.svg#youtube"></use></svg></a><a href="/feed.xml"><svg class="svg-icon"><use xlink:href="/assets/img/social-icons.svg#rss"></use></svg></a></ul>
+  
+
+
+    <script src="https://trickybitsblog.github.io/assets/js/jquery.slim.min.js"></script>
+<script src="https://trickybitsblog.github.io/assets/js/lity.min.js"></script>
+<script src="https://trickybitsblog.github.io/assets/js/tools.js"></script>
+</body>
+</html>
