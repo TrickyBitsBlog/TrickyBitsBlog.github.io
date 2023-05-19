@@ -376,7 +376,7 @@ table:not([class]) th, table:not([class]) td { padding: .25rem; border: 1px soli
 
 @media (max-width: 768px) { .feed { padding: 0; } }
 
-.post { justify-self: center; margin: 0 2rem; max-width: 1000px; display: flex; align-items: center; justify-content: center; flex-direction: row; flex-direction: column; justify-content: flex-start; align-items: center; }
+.post { justify-self: center; margin: 0 2rem; max-width: 1000px; display: flex; align-items: center; justify-content: center; flex-direction: row; flex-direction: column; justify-content: flex-start; align-items: center; /* hyvor comments */ }
 
 .post__title__text { text-align: center; color: var(--c-postTitle); margin-bottom: 0; }
 
@@ -419,6 +419,10 @@ table:not([class]) th, table:not([class]) td { padding: .25rem; border: 1px soli
 .post__navigator__buttons a .arrow-left { margin-right: .5rem; height: 1em; }
 
 .post__navigator__buttons a .arrow-right { margin-left: .5rem; height: 1em; }
+
+.post__comments { font-size: 1.0rem; font-weight: normal; font-family: Arial; margin-top: 1rem; width: 100%; color: #ffffff; text-decoration: none; }
+
+.post hyvor-talk-comments { --ht-color-accent: #d91c1c; --ht-color-accent-text: #000000; --ht-color-box: #ffffff; --ht-color-box-text: #000000; --ht-color-box-text-light: #0000000; --ht-color-box-secondary: #000000; --ht-color-box-secondary-text: #ffffff; --ht-box-shadow: 5px 5px 0px rgba(255, 255, 255, 0.05); --ht-box-radius: 10px; --ht-box-border: 1px solid transparent; --ht-button-radius: 10px; }
 
 .page { color: var(--c-pageText); justify-self: center; margin: 0 2rem; max-width: 1000px; display: flex; align-items: center; justify-content: center; flex-direction: row; flex-direction: column; justify-content: flex-start; align-items: center; }
 
